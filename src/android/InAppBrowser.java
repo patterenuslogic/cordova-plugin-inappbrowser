@@ -1119,5 +1119,17 @@ public class InAppBrowser extends CordovaPlugin {
             // By default handle 401 like we'd normally do!
             super.onReceivedHttpAuthRequest(view, handler, host, realm);
         }
+	    
+@Override
+public boolean shouldOverrideUrlLoading(WebView view, String url) {
+    if( url.startsWith("http:") || url.startsWith("https:") ) {
+        return false;
+    }
+
+    // Otherwise allow the OS to handle it
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    view.getContext().startActivity( intent );
+    return true;
+}
     }
 }
